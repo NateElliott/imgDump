@@ -17,7 +17,7 @@ class ImageModifiers:
         return buffer
 
 
-    def thumbnailer(image, lsize=100, quality=25):
+    def thumbnailer(image, lsize=200, quality=25):
 
         im = Image.open(image)
 
