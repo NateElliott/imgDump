@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<form method="post" action="/upload/" enctype="multipart/form-data">
+<form method="post" action="/upload" enctype="multipart/form-data">
     {% csrf_token %}
     <label for="imgUpload">Select Image:</label>
     <input type="file" name="image" id="imgUpload" accept="image/*" capture="camera" onchange="this.form.submit()">
