@@ -7,12 +7,18 @@ from django.core.files.base import ContentFile
 
 from .helper.generator import id_generator
 
+from .helper.ImageModifiers import ImageModifiers
+
 
 class Images(models.Model):
 
     image = models.FileField()
     thumb = models.FileField()
     datetime = models.DateTimeField(auto_now_add=True)
+
+    def generate(self):
+        self.name()
+        self.thumbnail()
 
     def name(self):
 
@@ -21,28 +27,12 @@ class Images(models.Model):
 
     def thumbnail(self):
 
-        im = Image.open(self.image)
-        im.thumbnail((150,150), Image.ANTIALIAS)
-
-
-        if self.ext in ['.jpg', '.jpeg']:
-            FTYPE = 'JPEG'
-        elif self.ext == '.gif':
-            FTYPE = 'GIF'
-        elif self.ext == '.png':
-            FTYPE = 'PNG'
-        else:
-            raise Exception('unknown file type')
-
-        buffer = BytesIO()
-        im.save(buffer, format=FTYPE)
-        buffer.seek(0)
+        blarg = ImageModifiers.maxsize(self.image, lsize=150)
 
         self.thumb.name = id_generator(size=8) + self.ext.lower()
-        self.thumb.file = ContentFile(buffer.read())
+        self.thumb.file = ContentFile(blarg.read())
         self.thumb.save(self.thumb.name, self.thumb.file, save=True)
 
-        buffer.close()
 
 
     def imagename(self):

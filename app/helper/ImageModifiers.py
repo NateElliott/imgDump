@@ -1,8 +1,11 @@
+import os
+
 from io import BytesIO
 from PIL import Image
 
 
 class ImageModifiers:
+
 
     def maxsize(image, lsize):
 
@@ -10,9 +13,20 @@ class ImageModifiers:
 
         size = (lsize, lsize)
         im.thumbnail(size, Image.ANTIALIAS)
+        name, ext = os.path.splitext(image.name)
+
+        if ext in ['.jpg', '.jpeg']:
+            FTYPE = 'JPEG'
+        elif ext == '.gif':
+            FTYPE = 'GIF'
+        elif ext == '.png':
+            FTYPE = 'PNG'
+        else:
+            raise Exception('unknown file type')
 
         buffer = BytesIO()
-        im.save(buffer, format='JPEG')
+        im.save(buffer, format=FTYPE)
+        buffer.seek(0)
 
         return buffer
 

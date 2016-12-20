@@ -24,15 +24,8 @@ class HomeView(View):
 class UploadView(View):
 
     def post(self, request):
-        image = request.FILES['image']
 
-
-
-        test = Images(image=image)
-        test.name()
-        test.thumbnail()
-
-
+        Images(image=request.FILES['image']).generate()
 
         return redirect('/')
 
@@ -41,10 +34,12 @@ class ImageView(View):
 
     def get(self, request, image):
 
+        # full size request
         if len(image)==16:
             image_file = Images.objects.filter(image__startswith=image)[0]
             return HttpResponse(image_file.image, content_type="image/png")
 
+        # thumbnail request
         elif len(image)==8:
             image_file = Images.objects.filter(thumb__startswith=image)[0]
             return HttpResponse(image_file.thumb, content_type="image/png")
