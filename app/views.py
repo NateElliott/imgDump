@@ -16,6 +16,7 @@ class HomeView(View):
 
     def get(self, request):
         item = Images.objects.all().order_by('-datetime')
+
         return render(request, self.template_name, {'item':item})
 
 
@@ -28,10 +29,10 @@ class UploadView(View):
 
 
         test = Images(image=image)
-        test.abc()
+        test.name()
         test.thumbnail()
 
-        test.save()
+
 
         return redirect('/')
 
@@ -39,5 +40,12 @@ class UploadView(View):
 class ImageView(View):
 
     def get(self, request, image):
-        image_file = Images.objects.filter(image=image+'.jpg')[0]
-        return HttpResponse(image_file.image, content_type="image/png")
+
+        if len(image)==16:
+            image_file = Images.objects.filter(image__startswith=image)[0]
+            return HttpResponse(image_file.image, content_type="image/png")
+
+        elif len(image)==8:
+            image_file = Images.objects.filter(thumb__startswith=image)[0]
+            return HttpResponse(image_file.thumb, content_type="image/png")
+
