@@ -4,44 +4,85 @@
 
 {% block javascript %}
 
-<script>
+    <script>
 
-    if (!!window.EventSource) {
-        var source = new EventSource('subscribe');
-    }
-
-    source.addEventListener('message', function(e) {
-        console.log(e.data);
-    }, false);
-
-    source.addEventListener('open', function(e) {
-        // Connection was opened.
-    }, false);
-
-    source.addEventListener('error', function(e) {
-        if (e.readyState == EventSource.CLOSED) {
-            // Connection was closed.
+        if (!!window.EventSource) {
+            var source = new EventSource('subscribe');
         }
-    }, false);
+
+        source.addEventListener('message', function(e) {
+            console.log(e.data);
+        }, false);
+
+        source.addEventListener('open', function(e) {
+            // Connection was opened.
+        }, false);
+
+        source.addEventListener('error', function(e) {
+            if (e.readyState == EventSource.CLOSED) {
+                // Connection was closed.
+            }
+        }, false);
 
 
-</script>
+    </script>
 
 {% endblock %}
 
-{% block content %}
-<form method="post" action="/upload" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="image" id="imgUpload" accept="image/*" capture="camera">
-    <button type="submit">Submit</button>
-</form>
-<hr>
-<div>
-{{location}}
-{% for ea in item %}
-<a href="{{ ea.imagename }}"><img src="{{ea.thumbname}}"></a>
-{% endfor %}
 
-</div>
+
+{% block upload %}
+
+    <form class="form-inline" method="post" action="/upload" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group fileupload">
+            <label for="imgUpload">
+
+                <div class="hidden-xs hidden-sm">
+                    <span class="btn btn-default">Upload</span>
+                </div>
+
+
+                <div class="hidden-md hidden-lg">
+                    <span class="btn btn-default"><h1>def</h1></span>
+                </div>
+
+            </label>
+            <input type="file"
+                   id="imgUpload"
+                   name="image"
+                   accept="image/gif, image/jpeg, image/png"
+                   capture="camera"
+                   onchange="this.form.submit();"
+                   class="upload"
+            >
+        </div>
+
+    </form>
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+
+
+        <div class="row">
+        {% for ea in item %}
+            <span>
+                <a href="{{ ea.imagename }}">
+                    <img src="{{ea.thumbname}}">
+                </a>
+
+            </span>
+        {% endfor %}
+        </div>
+
+
+
+
+
+    </div>
 
 {% endblock %}

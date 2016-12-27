@@ -47,7 +47,7 @@ class SubscribeView(View):
 
     def get(self, request):
 
-        val = "data: {}\n\n".format(datetime.datetime.now())
+        val = "data: {}\n\n".format('i can see you')
 
         return HttpResponse(val, content_type="text/event-stream")
 

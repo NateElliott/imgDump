@@ -5,8 +5,11 @@
         <meta charset="utf-8">
         <title>{% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/site-custom.css' %}" type="text/css">
     </head>
     <body>
+        {% block upload %}{% endblock %}
+        <hr>
         {% block content %}{% endblock %}
     </body>
 
