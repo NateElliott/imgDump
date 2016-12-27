@@ -1,5 +1,4 @@
 from django.conf.urls import url
-from django.views.generic import TemplateView
 from app.views import *
 
 urlpatterns = [
@@ -7,7 +6,6 @@ urlpatterns = [
 
     # testing
     url(r'subscribe$', SubscribeView.as_view()),
-
 
     # working
     url(r'upload$', UploadView.as_view()),

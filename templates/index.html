@@ -10,7 +10,6 @@
         var source = new EventSource('subscribe');
     }
 
-
     source.addEventListener('message', function(e) {
         console.log(e.data);
     }, false);
@@ -20,9 +19,9 @@
     }, false);
 
     source.addEventListener('error', function(e) {
-    if (e.readyState == EventSource.CLOSED) {
-        // Connection was closed.
-    }
+        if (e.readyState == EventSource.CLOSED) {
+            // Connection was closed.
+        }
     }, false);
 
 

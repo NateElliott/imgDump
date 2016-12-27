@@ -2,6 +2,8 @@ from django.views import View
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
+from django.conf import settings
+
 from .models import Images
 
 import datetime
@@ -46,8 +48,6 @@ class SubscribeView(View):
     def get(self, request):
 
         val = "data: {}\n\n".format(datetime.datetime.now())
-
-
 
         return HttpResponse(val, content_type="text/event-stream")
 
