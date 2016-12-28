@@ -7,7 +7,7 @@ from django.conf import settings
 from .models import Images
 
 import datetime
-
+import json
 
 class HomeView(View):
     template_name = "index.html"
@@ -43,11 +43,28 @@ class ImageView(View):
             return HttpResponse(image_file.thumb, content_type="image/png")
 
 
+class APIBoardView(View):
+
+    def get(self, request):
+
+        return HttpResponse('gtg')
+
+
 class SubscribeView(View):
 
     def get(self, request):
 
-        val = "data: {}\n\n".format('i can see you')
+        item = Images.objects.all()
+
+        """
+        data = []
+        for ea in item:
+            data.append(ea.thumb.name[:8])
+            print(ea.thumb.name[:8])
+        """
+
+
+        val = "data: {}\n\n".format(len(item))
 
         return HttpResponse(val, content_type="text/event-stream")
 

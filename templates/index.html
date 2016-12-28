@@ -6,24 +6,26 @@
 
     <script>
 
-        if (!!window.EventSource) {
-            var source = new EventSource('subscribe');
-        }
+        var source = new EventSource("subscribe");
+        var statusBoard = document.getElementById('status-board');
+        var imgList = document.getElementById('imgList');
+        var count = 0;
 
-        source.addEventListener('message', function(e) {
-            console.log(e.data);
-        }, false);
+        source.onmessage = function(e) {
+            if (count == 0) {
+                 count = e.data;
+            } else {
+                if (e.data > count) {
+                    updateBoard(count)
+                };
+                count = e.data;
+            };
+        };
 
-        source.addEventListener('open', function(e) {
-            // Connection was opened.
-        }, false);
 
-        source.addEventListener('error', function(e) {
-            if (e.readyState == EventSource.CLOSED) {
-                // Connection was closed.
-            }
-        }, false);
-
+        function updateBoard(d){
+            imgList.innerHTML = d+imgList.innerHTML;
+        };
 
     </script>
 
@@ -32,6 +34,8 @@
 
 
 {% block upload %}
+
+    <div class="status-board" id="status-board"></div>
 
     <form class="form-inline" method="post" action="/upload" enctype="multipart/form-data">
         {% csrf_token %}
@@ -45,7 +49,9 @@
 
 
                 <div class="hidden-md hidden-lg">
-                    <span class="btn btn-default"><h1>def</h1></span>
+                    <div class="text-center">
+                        <span style="font-size:15em;" class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+                    </div>
                 </div>
 
             </label>
@@ -55,8 +61,8 @@
                    accept="image/gif, image/jpeg, image/png"
                    capture="camera"
                    onchange="this.form.submit();"
-                   class="upload"
-            >
+                   class="upload">
+
         </div>
 
     </form>
@@ -68,13 +74,12 @@
     <div class="container">
 
 
-        <div class="row">
+        <div class="row" id="imgList">
         {% for ea in item %}
             <span>
                 <a href="{{ ea.imagename }}">
                     <img src="{{ea.thumbname}}">
                 </a>
-
             </span>
         {% endfor %}
         </div>
