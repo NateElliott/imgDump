@@ -6,6 +6,7 @@ urlpatterns = [
 
     # testing
     url(r'subscribe$', SubscribeView.as_view()),
+    url(r'api/imgboard$', APIBoardView.as_view()),
 
     # working
     url(r'upload$', UploadView.as_view()),

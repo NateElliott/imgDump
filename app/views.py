@@ -1,5 +1,5 @@
 from django.views import View
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
 from django.conf import settings
@@ -46,8 +46,19 @@ class ImageView(View):
 class APIBoardView(View):
 
     def get(self, request):
+        item = Images.objects.all().order_by('-datetime')[0]
+        data = {
+            'result': [],
+        }
 
-        return HttpResponse('gtg')
+        data['result'].append({
+                            'thumb':item.thumb.name[:8],
+                            'image':item.image.name[:16],
+                            'datetime':item.datetime,
+
+        })
+
+        return JsonResponse(data)
 
 
 class SubscribeView(View):
@@ -55,15 +66,6 @@ class SubscribeView(View):
     def get(self, request):
 
         item = Images.objects.all()
-
-        """
-        data = []
-        for ea in item:
-            data.append(ea.thumb.name[:8])
-            print(ea.thumb.name[:8])
-        """
-
-
         val = "data: {}\n\n".format(len(item))
 
         return HttpResponse(val, content_type="text/event-stream")

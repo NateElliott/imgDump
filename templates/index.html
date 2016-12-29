@@ -2,37 +2,6 @@
 
 {% block title %}Home{% endblock %}
 
-{% block javascript %}
-
-    <script>
-
-        var source = new EventSource("subscribe");
-        var statusBoard = document.getElementById('status-board');
-        var imgList = document.getElementById('imgList');
-        var count = 0;
-
-        source.onmessage = function(e) {
-            if (count == 0) {
-                 count = e.data;
-            } else {
-                if (e.data > count) {
-                    updateBoard(count)
-                };
-                count = e.data;
-            };
-        };
-
-
-        function updateBoard(d){
-            imgList.innerHTML = d+imgList.innerHTML;
-        };
-
-    </script>
-
-{% endblock %}
-
-
-
 {% block upload %}
 
     <div class="status-board" id="status-board"></div>
@@ -75,18 +44,14 @@
 
 
         <div class="row" id="imgList">
-        {% for ea in item %}
+            {% for ea in item %}
             <span>
                 <a href="{{ ea.imagename }}">
                     <img src="{{ea.thumbname}}">
                 </a>
             </span>
-        {% endfor %}
+            {% endfor %}
         </div>
-
-
-
-
 
     </div>
 
