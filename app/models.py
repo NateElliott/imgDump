@@ -30,7 +30,7 @@ class Images(models.Model):
 
     def thumbnailfile(self):
 
-        thumbfile = ImageModifiers.maxsize(self.image, lsize=150)
+        thumbfile = ImageModifiers.maxsize(self.image, lsize=200)
 
         self.thumb.name = id_generator(size=8) + self.ext.lower()
         self.thumb.file = ContentFile(thumbfile.read())

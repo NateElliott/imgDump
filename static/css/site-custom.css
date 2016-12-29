@@ -10,14 +10,8 @@
     filter: alpha(opacity=0);
 }
 
-.status-board {
-    border: 1px solid black;
-    padding: 2px;
-    margin: 5px;
-    position:absolute;
-    top: 5px;
-    left: 80%;
-    background-color: #000000;
-    color: #FFF;
+.thumb-wrap {
+    padding: 5px;
 
 }
+

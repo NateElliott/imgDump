@@ -2,6 +2,26 @@
 
 {% block title %}Home{% endblock %}
 
+
+{% block javascript %}
+
+    $(window).bind("pageshow", function() {
+        var form = $('form');
+        form[0].reset();
+    });
+
+    $('form').on('submit', function(e) {
+        var form = this;
+        setTimeout(function() {
+            form.submit();
+        }, 3000);
+        return false;
+    });
+
+
+
+{% endblock %}
+
 {% block upload %}
 
     <div class="status-board" id="status-board"></div>
@@ -16,7 +36,6 @@
                     <span class="btn btn-default">Upload</span>
                 </div>
 
-
                 <div class="hidden-md hidden-lg">
                     <div class="text-center">
                         <span style="font-size:15em;" class="glyphicon glyphicon-camera" aria-hidden="true"></span>
@@ -27,14 +46,16 @@
             <input type="file"
                    id="imgUpload"
                    name="image"
-                   accept="image/gif, image/jpeg, image/png"
-                   capture="camera"
+                   accept="image/*;capture=camera"
                    onchange="this.form.submit();"
-                   class="upload">
-
+                   class="upload"
+                >
         </div>
 
     </form>
+
+
+
 
 {% endblock %}
 
@@ -45,7 +66,7 @@
 
         <div class="row" id="imgList">
             {% for ea in item %}
-            <span>
+            <span class="thumb-wrap">
                 <a href="{{ ea.imagename }}">
                     <img src="{{ea.thumbname}}">
                 </a>
